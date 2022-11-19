@@ -6,6 +6,13 @@ micronaut:
     endpoints:
       login:
         path: /api/login
+    intercept-url-map:
+      - pattern: /swagger/**
+        access:
+          - isAnonymous()
+      - pattern: /swagger-ui/**
+        access:
+          - isAnonymous()
     token:
       jwt:
         signatures:
