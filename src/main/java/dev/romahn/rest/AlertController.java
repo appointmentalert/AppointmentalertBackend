@@ -2,8 +2,11 @@ package dev.romahn.rest;
 
 import dev.romahn.model.AlertEntity;
 import dev.romahn.repository.AlertRepository;
+import dev.romahn.repository.AlertTypeRepository;
 import dev.romahn.repository.UserRepository;
-import dev.romahn.rest.model.AlertEntityUpdateDTO;
+import dev.romahn.rest.model.AlertCreateDTO;
+import dev.romahn.rest.model.AlertReadDTO;
+import dev.romahn.rest.model.AlertUpdateDTO;
 import io.micronaut.http.annotation.*;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
@@ -25,25 +28,52 @@ public class AlertController {
     AlertRepository alertRepository;
 
     @Inject
+    AlertTypeRepository alertTypeRepository;
+
+    @Inject
     UserRepository userRepository;
 
     @Get()
-    public List<AlertEntity> get() {
-         String username = securityService.username().orElseThrow();
+    public List<AlertReadDTO> get() {
+        String username = securityService.username().orElseThrow();
+        List<AlertEntity> entities = alertRepository.findByUserUsername(username);
 
-         return alertRepository.findByUserUsername(username);
+        return entities.stream().map(entity -> {
+            AlertReadDTO out = new AlertReadDTO();
+            out.setId(entity.getId());
+            out.setTypeId(entity.getType().getId());
+            out.setEndDate(entity.getEndDate());
+            out.setStartDate(entity.getStartDate());
+            out.setActive(entity.isActive());
+            return out;
+        }).toList();
     }
 
     @Post
-    public AlertEntity create(@Valid AlertEntity alert) {
+    public AlertReadDTO create(@Valid AlertCreateDTO alert) {
         String username = securityService.username().orElseThrow();
 
-        alert.setUser(userRepository.findByUsername(username).orElseThrow());
-        return alertRepository.save(alert);
+        AlertEntity entity = new AlertEntity();
+        entity.setUser(userRepository.findByUsername(username).orElseThrow());
+        entity.setType(alertTypeRepository.findById(alert.getTypeId()).orElseThrow());
+        entity.setStartDate(alert.getStartDate());
+        entity.setEndDate(alert.getEndDate());
+        entity.setActive(alert.isActive());
+
+        AlertEntity created = alertRepository.save(entity);
+
+        AlertReadDTO out = new AlertReadDTO();
+        out.setId(created.getId());
+        out.setTypeId(created.getType().getId());
+        out.setStartDate(created.getStartDate());
+        out.setEndDate(created.getEndDate());
+        out.setActive(created.isActive());
+
+        return out;
     }
 
     @Put("/{id}")
-    public AlertEntity update(UUID id, @Valid AlertEntityUpdateDTO alertUpdate) {
+    public AlertReadDTO update(UUID id, @Valid AlertUpdateDTO alertUpdate) {
         String username = securityService.username().orElseThrow();
 
         AlertEntity alert = alertRepository.findByIdAndUserUsername(id , username).orElseThrow();
@@ -52,7 +82,16 @@ public class AlertController {
         alert.setEndDate(alertUpdate.getEndDate());
         alert.setActive(alertUpdate.isActive());
 
-        return alertRepository.update(alert);
+        AlertEntity updated = alertRepository.update(alert);
+
+        AlertReadDTO out = new AlertReadDTO();
+        out.setId(updated.getId());
+        out.setTypeId(updated.getType().getId());
+        out.setStartDate(updated.getStartDate());
+        out.setEndDate(updated.getEndDate());
+        out.setActive(updated.isActive());
+
+        return out;
     }
 
 

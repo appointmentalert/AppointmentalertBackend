@@ -1,6 +1,5 @@
 package dev.romahn.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.micronaut.data.annotation.AutoPopulated;
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;
@@ -17,7 +16,7 @@ public class AlertEntity {
     @AutoPopulated
     private UUID id;
 
-    @JsonIgnore
+    @NotNull
     private UserEntity user;
 
     @NotNull
@@ -29,6 +28,7 @@ public class AlertEntity {
     @NotNull
     private LocalDate endDate;
 
+    @NotNull
     private boolean active = true;
 
 }

@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Data
 @Introspected
-public class AlertEntityUpdateDTO {
+public class AlertUpdateDTO {
 
     @NotNull
     private LocalDate startDate;
@@ -16,6 +16,6 @@ public class AlertEntityUpdateDTO {
     @NotNull
     private LocalDate endDate;
 
-    private boolean active = true;
-
+    @NotNull
+    private boolean active;
 }
