@@ -11,7 +11,7 @@ micronaut:
         signatures:
           secret:
             generator:
-              secret: ${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}
+              secret: ${JWT_GENERATOR_SECRET:supersecret}
   router:
     static-resources:
       swagger:
@@ -26,9 +26,7 @@ datasources:
     db-type: mysql
     schema-generate: CREATE_DROP
     dialect: MYSQL
-    jdbc-url: jdbc:mysql://localhost:3306/appointmentalert
-#    username: ${DB_USER:appointmentalert}
-#    password: ${DB_PASSWORD:supersecret}
+    jdbc-url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_DATABASE:appointmentalert}?user=${DB_USER:appointmentalert}&password=${DB_PASSWORD:supersecret}
 netty:
   default:
     allocator:

@@ -31,9 +31,7 @@ class JwtAuthenticationTest {
 
     @Test
     void accessingASecuredUrlWithoutAuthenticatingReturnsUnauthorized() {
-        HttpClientResponseException e = assertThrows(HttpClientResponseException.class, () -> {
-            client.toBlocking().exchange(HttpRequest.GET("/api/appointmentalert").accept(TEXT_PLAIN));
-        });
+        HttpClientResponseException e = assertThrows(HttpClientResponseException.class, () -> client.toBlocking().exchange(HttpRequest.GET("/api/appointmentalert").accept(TEXT_PLAIN)));
 
         assertEquals(UNAUTHORIZED, e.getStatus());
     }
