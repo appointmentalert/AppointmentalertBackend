@@ -7,11 +7,12 @@ import io.micronaut.data.repository.CrudRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @JdbcRepository(dialect = Dialect.MYSQL)
-public interface AlertRepository extends CrudRepository<AlertEntity, Long> {
+public interface AlertRepository extends CrudRepository<AlertEntity, UUID> {
 
     List<AlertEntity> findByUserUsername(String username);
 
-    Optional<AlertEntity> findByIdAndUserUsername(Long id, String username);
+    Optional<AlertEntity> findByIdAndUserUsername(UUID id, String username);
 }

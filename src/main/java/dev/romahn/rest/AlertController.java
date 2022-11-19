@@ -12,6 +12,7 @@ import jakarta.inject.Inject;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Secured(SecurityRule.IS_AUTHENTICATED)
 @Controller("/api/alerts")
@@ -42,7 +43,7 @@ public class AlertController {
     }
 
     @Put("/{id}")
-    public AlertEntity update(Long id, @Valid AlertEntityUpdateDTO alertUpdate) {
+    public AlertEntity update(UUID id, @Valid AlertEntityUpdateDTO alertUpdate) {
         String username = securityService.username().orElseThrow();
 
         AlertEntity alert = alertRepository.findByIdAndUserUsername(id , username).orElseThrow();
@@ -56,7 +57,7 @@ public class AlertController {
 
 
     @Delete("/{id}")
-    public void delete(Long id) {
+    public void delete(UUID id) {
         String username = securityService.username().orElseThrow();
 
         AlertEntity alert = alertRepository.findByIdAndUserUsername(id , username).orElseThrow();
