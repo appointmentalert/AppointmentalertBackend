@@ -20,6 +20,8 @@ micronaut:
       swagger-ui:
         paths: classpath:META-INF/swagger/views/swagger-ui
         mapping: /swagger-ui/**
+jackson:
+  date-format: "yyyy-MM-dd"
 datasources:
   default:
     driverClassName: com.mysql.cj.jdbc.Driver

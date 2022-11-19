@@ -1,5 +1,6 @@
 package dev.romahn.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.micronaut.data.annotation.GeneratedValue;
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;
@@ -15,7 +16,7 @@ public class AlertEntity {
     @GeneratedValue(GeneratedValue.Type.AUTO)
     private Long id;
 
-    @NotNull
+    @JsonIgnore
     private UserEntity user;
 
     @NotNull
