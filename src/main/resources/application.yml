@@ -3,6 +3,9 @@ micronaut:
     name: appointmentalert
   security:
     authentication: bearer
+    endpoints:
+      login:
+        path: /api/login
     token:
       jwt:
         signatures:
@@ -23,6 +26,9 @@ datasources:
     db-type: mysql
     schema-generate: CREATE_DROP
     dialect: MYSQL
+    jdbc-url: jdbc:mysql://localhost:3306/appointmentalert
+#    username: ${DB_USER:appointmentalert}
+#    password: ${DB_PASSWORD:supersecret}
 netty:
   default:
     allocator:
