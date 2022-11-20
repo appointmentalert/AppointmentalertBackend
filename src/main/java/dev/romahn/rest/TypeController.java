@@ -1,21 +1,25 @@
 package dev.romahn.rest;
 
-import dev.romahn.model.AlertTypeEntity;
-import dev.romahn.repository.AlertTypeRepository;
+import dev.romahn.model.AlertType;
+import dev.romahn.rest.model.AlertTypeDTO;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import jakarta.annotation.security.PermitAll;
-import jakarta.inject.Inject;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Controller("/api/types")
 @PermitAll
 public class TypeController {
 
-    @Inject
-    AlertTypeRepository alertTypeRepository;
-
     @Get()
-    public Iterable<AlertTypeEntity> get() {
-        return alertTypeRepository.findAll();
+    public List<AlertTypeDTO> list() {
+        return Arrays.stream(AlertType.values()).map(alertType -> {
+            AlertTypeDTO dto = new AlertTypeDTO();
+            dto.setCode(alertType.name());
+            dto.setDescription(alertType.getDescription());
+            return dto;
+        }).toList();
     }
 }

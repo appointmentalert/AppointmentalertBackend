@@ -1,5 +1,6 @@
 package dev.romahn.rest.model;
 
+import dev.romahn.model.AlertType;
 import io.micronaut.core.annotation.Introspected;
 import lombok.Data;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
 @Introspected
 public class AlertReadDTO {
     private UUID id;
-    private UUID typeId;
+    private AlertType type;
     private LocalDate startDate;
     private LocalDate endDate;
     private boolean active;

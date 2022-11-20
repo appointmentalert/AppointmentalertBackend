@@ -20,7 +20,7 @@ public class AlertEntity {
     private UserEntity user;
 
     @NotNull
-    private AlertTypeEntity type;
+    private AlertType type;
 
     @NotNull
     private LocalDate startDate;
