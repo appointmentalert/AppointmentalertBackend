@@ -1,4 +1,4 @@
-package dev.romahn.rest.model;
+package dev.romahn.rest.dto;
 
 import io.micronaut.core.annotation.Introspected;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package dev.romahn.rest;
 
 import dev.romahn.model.AlertType;
-import dev.romahn.rest.model.AlertTypeDTO;
+import dev.romahn.rest.dto.AlertTypeDTO;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import jakarta.annotation.security.PermitAll;

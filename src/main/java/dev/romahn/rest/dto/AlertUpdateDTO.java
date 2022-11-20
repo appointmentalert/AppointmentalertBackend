@@ -1,6 +1,5 @@
-package dev.romahn.rest.model;
+package dev.romahn.rest.dto;
 
-import dev.romahn.model.AlertType;
 import io.micronaut.core.annotation.Introspected;
 import lombok.Data;
 
@@ -9,10 +8,7 @@ import java.time.LocalDate;
 
 @Data
 @Introspected
-public class AlertCreateDTO {
-
-    @NotNull
-    private AlertType type;
+public class AlertUpdateDTO {
 
     @NotNull
     private LocalDate startDate;

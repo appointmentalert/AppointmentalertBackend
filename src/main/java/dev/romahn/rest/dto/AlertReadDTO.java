@@ -1,21 +1,18 @@
-package dev.romahn.rest.model;
+package dev.romahn.rest.dto;
 
+import dev.romahn.model.AlertType;
 import io.micronaut.core.annotation.Introspected;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 @Introspected
-public class AlertUpdateDTO {
-
-    @NotNull
+public class AlertReadDTO {
+    private UUID id;
+    private AlertType type;
     private LocalDate startDate;
-
-    @NotNull
     private LocalDate endDate;
-
-    @NotNull
     private boolean active;
 }
