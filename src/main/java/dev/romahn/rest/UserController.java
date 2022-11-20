@@ -3,8 +3,8 @@ package dev.romahn.rest;
 import dev.romahn.model.UserEntity;
 import dev.romahn.repository.UserRepository;
 import dev.romahn.rest.auth.Argon2PasswordEncoder;
-import dev.romahn.rest.dto.UserCreateDTO;
-import dev.romahn.rest.dto.UserReadDTO;
+import dev.romahn.rest.dto.UserCreate;
+import dev.romahn.rest.dto.UserRead;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
 import jakarta.annotation.security.PermitAll;
@@ -24,7 +24,7 @@ public class UserController {
     Argon2PasswordEncoder passwordEncoder;
 
     @Post
-    public UserReadDTO signup(@Valid UserCreateDTO user) {
+    public UserRead signup(@Valid UserCreate user) {
 
         Optional<UserEntity> result = userRepository.findByUsername(user.getUsername());
 
@@ -38,7 +38,7 @@ public class UserController {
 
         UserEntity created = userRepository.save(entity);
 
-        UserReadDTO out = new UserReadDTO();
+        UserRead out = new UserRead();
         out.setId(created.getId());
         out.setUsername(created.getUsername());
 

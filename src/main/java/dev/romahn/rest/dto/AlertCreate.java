@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Data
 @Introspected
-public class AlertCreateDTO {
+public class AlertCreate {
 
     @NotNull
     private AlertType type;

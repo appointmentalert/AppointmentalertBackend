@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Data
 @Introspected
-public class AlertUpdateDTO {
+public class AlertUpdate {
 
     @NotNull
     private LocalDate startDate;

@@ -3,9 +3,9 @@ package dev.romahn.rest;
 import dev.romahn.model.AlertEntity;
 import dev.romahn.repository.AlertRepository;
 import dev.romahn.repository.UserRepository;
-import dev.romahn.rest.dto.AlertCreateDTO;
-import dev.romahn.rest.dto.AlertReadDTO;
-import dev.romahn.rest.dto.AlertUpdateDTO;
+import dev.romahn.rest.dto.AlertCreate;
+import dev.romahn.rest.dto.AlertRead;
+import dev.romahn.rest.dto.AlertUpdate;
 import io.micronaut.http.annotation.*;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
@@ -31,12 +31,12 @@ public class AlertController {
     UserRepository userRepository;
 
     @Get()
-    public List<AlertReadDTO> get() {
+    public List<AlertRead> get() {
         String username = securityService.username().orElseThrow();
         List<AlertEntity> entities = alertRepository.findByUserUsername(username);
 
         return entities.stream().map(entity -> {
-            AlertReadDTO out = new AlertReadDTO();
+            AlertRead out = new AlertRead();
             out.setId(entity.getId());
             out.setType(entity.getType());
             out.setEndDate(entity.getEndDate());
@@ -47,7 +47,7 @@ public class AlertController {
     }
 
     @Post
-    public AlertReadDTO create(@Valid AlertCreateDTO alert) {
+    public AlertRead create(@Valid AlertCreate alert) {
         String username = securityService.username().orElseThrow();
 
         AlertEntity entity = new AlertEntity();
@@ -61,7 +61,7 @@ public class AlertController {
     }
 
     @Put("/{id}")
-    public AlertReadDTO update(@NotNull UUID id, @Valid AlertUpdateDTO alertUpdate) {
+    public AlertRead update(@NotNull UUID id, @Valid AlertUpdate alertUpdate) {
         String username = securityService.username().orElseThrow();
 
         AlertEntity alert = alertRepository.findByIdAndUserUsername(id , username).orElseThrow();
@@ -73,8 +73,8 @@ public class AlertController {
         return createReadDTO(alertRepository.update(alert));
     }
 
-    private AlertReadDTO createReadDTO(AlertEntity entity) {
-        AlertReadDTO out = new AlertReadDTO();
+    private AlertRead createReadDTO(AlertEntity entity) {
+        AlertRead out = new AlertRead();
         out.setId(entity.getId());
         out.setType(entity.getType());
         out.setStartDate(entity.getStartDate());

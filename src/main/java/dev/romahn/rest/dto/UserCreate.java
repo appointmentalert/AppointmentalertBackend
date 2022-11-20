@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @Introspected
-public class UserCreateDTO {
+public class UserCreate {
 
     @Email
     private String username;

@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Data
 @Introspected
-public class AlertReadDTO {
+public class AlertRead {
     private UUID id;
     private AlertType type;
     private LocalDate startDate;

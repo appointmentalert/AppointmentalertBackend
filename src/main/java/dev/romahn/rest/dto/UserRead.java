@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 @Introspected
-public class UserReadDTO {
+public class UserRead {
     private UUID id;
     private String username;
 }
