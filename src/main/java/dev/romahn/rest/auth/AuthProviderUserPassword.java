@@ -23,6 +23,9 @@ public class AuthProviderUserPassword implements AuthenticationProvider {
     @Inject
     UserRepository userRepository;
 
+    @Inject
+    Argon2PasswordEncoder passwordEncoder;
+
     @Override
     public Publisher<AuthenticationResponse> authenticate(@Nullable HttpRequest<?> httpRequest,
                                                           AuthenticationRequest<?, ?> authenticationRequest) {
@@ -43,7 +46,7 @@ public class AuthProviderUserPassword implements AuthenticationProvider {
             Optional<UserEntity> user = userRepository.findByUsername(username);
 
             if (user.isPresent()) {
-                if (password.equals(user.get().getPassword())) {
+                if (passwordEncoder.matches(user.get().getPassword(), password)) {
                     emitter.next(AuthenticationResponse.success(username));
                     emitter.complete();
                 } else {
