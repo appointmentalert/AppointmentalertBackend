@@ -1,6 +1,6 @@
 package dev.romahn.rest;
 
-import dev.romahn.model.AlertEntity;
+import dev.romahn.model.Alert;
 import dev.romahn.repository.AlertRepository;
 import dev.romahn.repository.UserRepository;
 import dev.romahn.rest.dto.AlertCreate;
@@ -33,7 +33,7 @@ public class AlertController {
     @Get()
     public List<AlertRead> get() {
         String username = securityService.username().orElseThrow();
-        List<AlertEntity> entities = alertRepository.findByUserUsername(username);
+        List<Alert> entities = alertRepository.findByUserUsername(username);
 
         return entities.stream().map(entity -> {
             AlertRead out = new AlertRead();
@@ -50,7 +50,7 @@ public class AlertController {
     public AlertRead create(@Valid AlertCreate alert) {
         String username = securityService.username().orElseThrow();
 
-        AlertEntity entity = new AlertEntity();
+        Alert entity = new Alert();
         entity.setUser(userRepository.findByUsername(username).orElseThrow());
         entity.setType(alert.getType());
         entity.setStartDate(alert.getStartDate());
@@ -64,7 +64,7 @@ public class AlertController {
     public AlertRead update(@NotNull UUID id, @Valid AlertUpdate alertUpdate) {
         String username = securityService.username().orElseThrow();
 
-        AlertEntity alert = alertRepository.findByIdAndUserUsername(id , username).orElseThrow();
+        Alert alert = alertRepository.findByIdAndUserUsername(id , username).orElseThrow();
 
         alert.setStartDate(alertUpdate.getStartDate());
         alert.setEndDate(alertUpdate.getEndDate());
@@ -73,7 +73,7 @@ public class AlertController {
         return createReadDTO(alertRepository.update(alert));
     }
 
-    private AlertRead createReadDTO(AlertEntity entity) {
+    private AlertRead createReadDTO(Alert entity) {
         AlertRead out = new AlertRead();
         out.setId(entity.getId());
         out.setType(entity.getType());
@@ -88,7 +88,7 @@ public class AlertController {
     public void delete(@NotNull UUID id) {
         String username = securityService.username().orElseThrow();
 
-        AlertEntity alert = alertRepository.findByIdAndUserUsername(id , username).orElseThrow();
+        Alert alert = alertRepository.findByIdAndUserUsername(id , username).orElseThrow();
 
         alertRepository.delete(alert);
     }

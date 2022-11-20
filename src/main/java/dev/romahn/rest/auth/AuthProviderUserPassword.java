@@ -1,6 +1,6 @@
 package dev.romahn.rest.auth;
 
-import dev.romahn.model.UserEntity;
+import dev.romahn.model.User;
 import dev.romahn.repository.UserRepository;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.util.StringUtils;
@@ -43,7 +43,7 @@ public class AuthProviderUserPassword implements AuthenticationProvider {
             }
 
             username = username.toLowerCase();
-            Optional<UserEntity> user = userRepository.findByUsername(username);
+            Optional<User> user = userRepository.findByUsername(username);
 
             if (user.isPresent()) {
                 if (passwordEncoder.matches(user.get().getPassword(), password)) {

@@ -1,6 +1,6 @@
 package dev.romahn.rest;
 
-import dev.romahn.model.UserEntity;
+import dev.romahn.model.User;
 import dev.romahn.repository.UserRepository;
 import dev.romahn.rest.auth.Argon2PasswordEncoder;
 import dev.romahn.rest.dto.UserCreate;
@@ -26,17 +26,17 @@ public class UserController {
     @Post
     public UserRead signup(@Valid UserCreate user) {
 
-        Optional<UserEntity> result = userRepository.findByUsername(user.getUsername());
+        Optional<User> result = userRepository.findByUsername(user.getUsername());
 
         if (result.isPresent()) {
             throw new RuntimeException("User already exists");
         }
 
-        UserEntity entity = new UserEntity();
+        User entity = new User();
         entity.setUsername(user.getUsername());
         entity.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        UserEntity created = userRepository.save(entity);
+        User created = userRepository.save(entity);
 
         UserRead out = new UserRead();
         out.setId(created.getId());

@@ -6,19 +6,29 @@ import io.micronaut.data.annotation.MappedEntity;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @MappedEntity @Data
-public class UserEntity {
+public class Alert {
 
     @Id
     @AutoPopulated
     private UUID id;
 
     @NotNull
-    private String username;
+    private User user;
 
     @NotNull
-    private String password;
+    private AlertType type;
+
+    @NotNull
+    private LocalDate startDate;
+
+    @NotNull
+    private LocalDate endDate;
+
+    @NotNull
+    private boolean active = true;
 
 }
