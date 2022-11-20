@@ -1,25 +1,25 @@
 package dev.romahn.rest;
 
 import dev.romahn.model.AlertType;
-import dev.romahn.rest.dto.AlertTypeDTO;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import jakarta.annotation.security.PermitAll;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller("/api/types")
 @PermitAll
 public class TypeController {
 
     @Get()
-    public List<AlertTypeDTO> list() {
-        return Arrays.stream(AlertType.values()).map(alertType -> {
-            AlertTypeDTO dto = new AlertTypeDTO();
-            dto.setCode(alertType.name());
-            dto.setDescription(alertType.getDescription());
-            return dto;
-        }).toList();
+    public Map<String, String> list() {
+        Map<String, String> result = new HashMap<>();
+
+        for (AlertType type : AlertType.values()) {
+            result.put(type.name(), type.getDescription());
+        }
+
+        return result;
     }
 }
