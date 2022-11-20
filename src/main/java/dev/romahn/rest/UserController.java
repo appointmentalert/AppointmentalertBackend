@@ -2,13 +2,14 @@ package dev.romahn.rest;
 
 import dev.romahn.model.User;
 import dev.romahn.repository.UserRepository;
-import dev.romahn.rest.auth.Argon2PasswordEncoder;
 import dev.romahn.rest.dto.UserCreate;
 import dev.romahn.rest.dto.UserRead;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
 import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -17,11 +18,10 @@ import java.util.Optional;
 @PermitAll
 public class UserController {
 
-    @Inject
-    UserRepository userRepository;
+    PasswordEncoder passwordEncoder = new Argon2PasswordEncoder();
 
     @Inject
-    Argon2PasswordEncoder passwordEncoder;
+    UserRepository userRepository;
 
     @Post
     public UserRead signup(@Valid UserCreate user) {

@@ -11,6 +11,8 @@ import io.micronaut.security.authentication.AuthenticationResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import org.reactivestreams.Publisher;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
 
@@ -20,11 +22,10 @@ import java.util.Optional;
 @Singleton
 public class AuthProviderUserPassword implements AuthenticationProvider {
 
-    @Inject
-    UserRepository userRepository;
+    PasswordEncoder passwordEncoder = new Argon2PasswordEncoder();
 
     @Inject
-    Argon2PasswordEncoder passwordEncoder;
+    UserRepository userRepository;
 
     @Override
     public Publisher<AuthenticationResponse> authenticate(@Nullable HttpRequest<?> httpRequest,
@@ -46,7 +47,7 @@ public class AuthProviderUserPassword implements AuthenticationProvider {
             Optional<User> user = userRepository.findByUsername(username);
 
             if (user.isPresent()) {
-                if (passwordEncoder.matches(user.get().getPassword(), password)) {
+                if (passwordEncoder.matches(password, user.get().getPassword())) {
                     emitter.next(AuthenticationResponse.success(username));
                     emitter.complete();
                 } else {
