@@ -8,6 +8,7 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
 import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class UserController {
 
     PasswordEncoder passwordEncoder = new Argon2PasswordEncoder();
+    ModelMapper modelMapper = new ModelMapper();
 
     @Inject
     UserRepository userRepository;
@@ -38,11 +40,7 @@ public class UserController {
 
         User created = userRepository.save(entity);
 
-        UserRead out = new UserRead();
-        out.setId(created.getId());
-        out.setUsername(created.getUsername());
-
-        return out;
+        return modelMapper.map(created, UserRead.class);
     }
 
 }
